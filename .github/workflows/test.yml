@@ -1,0 +1,21 @@
+name: 🧅 Test Perl Action
+on:
+  push:
+    branches: ['*']
+jobs:
+  test:
+    strategy:
+      matrix:
+        include:
+          - { icon: 🐧, os: ubuntu,  name: Linux }
+          - { icon: 🍎, os: macos,   name: macOS }
+          - { icon: 🪟, os: windows, name: Windows }
+    name: ${{ matrix.icon }} ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Perl
+        id: perl
+        uses: shogo82148/actions-setup-perl@v1
+        with: { perl-version: latest }
+      - run: cpm install --verbose --show-build-log-on-failure --no-test --with-recommends List::MoreUtils::XS
