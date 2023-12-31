@@ -7,11 +7,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - { icon: 🐧, os: ubuntu,  name: Linux }
-          - { icon: 🍎, os: macos,   name: macOS }
-          - { icon: 🪟, os: windows, name: Windows }
+          - { icon: 🐧, os: ubuntu-latest, name: Linux }
+          - { icon: 🍎, os: macos-latest,  name: macOS }
+          - { icon: 🪟, os: windows-2019,  name: Windows }
     name: ${{ matrix.icon }} ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Perl
