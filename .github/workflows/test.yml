@@ -18,4 +18,13 @@ jobs:
         id: perl
         uses: shogo82148/actions-setup-perl@v1
         with: { perl-version: latest }
-      - run: cpm install --verbose --show-build-log-on-failure --no-test List::MoreUtils::XS
+      - if: runner.os == 'Linux'
+        run: sudo apt-get install -qq aspell-en language-pack-fr
+      # - if: runner.os == 'Windows'
+      #   run: Install-Language fr-FR
+      - name: en-US
+        env: { LC_ALL: en_US.UTF-8 }
+        run: perl -MPOSIX -E 'use Test::More tests => 1; is POSIX::setlocale(POSIX::LC_ALL), $ENV{LC_ALL}'
+      - name: fr-FR
+        env: { LC_ALL: fr_FR.UTF-8 }
+        run: perl -MPOSIX -E 'use Test::More tests => 1; is POSIX::setlocale(POSIX::LC_ALL), $ENV{LC_ALL}'
