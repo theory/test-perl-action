@@ -23,6 +23,8 @@ jobs:
         run: sudo apt-get install -qq aspell-en language-pack-fr
       # - if: runner.os == 'Windows'
       #   run: Install-Language fr-FR
+      - name: default
+        run: prove t/deflocale.t
       - name: en-US
         env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'en_US.UTF-8' }}" }
         run: prove
