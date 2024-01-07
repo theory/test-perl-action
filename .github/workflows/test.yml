@@ -6,12 +6,13 @@ jobs:
   test:
     strategy:
       matrix:
-        include:
-          - { icon: 🐧, os: ubuntu,  name: Linux }
-          - { icon: 🍎, os: macos,   name: macOS }
-          - { icon: 🪟, os: windows, name: Windows }
-    name: ${{ matrix.icon }} ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}-latest
+        os:
+          - [🐧, ubuntu-latest]
+          - [🍎, macos-latest]
+          - [🪟, windows-latest]
+        perl: [ '5.38', '5.36', '5.34', '5.32', '5.30', '5.28', '5.26', '5.24', '5.22', '5.20', '5.18', '5.16', '5.14', '5.12' ]
+    name: 🧅 Perl ${{ matrix.perl }} on ${{ matrix.os[0] }} ${{ matrix.os[1] }}
+    runs-on: ${{ matrix.os[1] }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Perl
@@ -23,8 +24,8 @@ jobs:
       # - if: runner.os == 'Windows'
       #   run: Install-Language fr-FR
       - name: en-US
-        env: { LC_ALL: en_US.UTF-8 }
-        run: perl -MPOSIX -E 'use Test::More tests => 1; is POSIX::setlocale(POSIX::LC_ALL), $ENV{LC_ALL}'
+        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'en_US.UTF-8' }}" }
+        run: prove
       - name: fr-FR
-        env: { LC_ALL: fr_FR.UTF-8 }
-        run: perl -MPOSIX -E 'use Test::More tests => 1; is POSIX::setlocale(POSIX::LC_ALL), $ENV{LC_ALL}'
+        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'fr_FR.UTF-8' }}" }
+        run: prove
