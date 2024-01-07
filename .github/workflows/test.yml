@@ -29,5 +29,5 @@ jobs:
         env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'en_US.UTF-8' }}" }
         run: prove
       - name: fr-FR
-        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'fr_FR.UTF-8' }}" }
+        env: { LC_ALL: "${{ runner.os == 'Windows' && 'French_France.1252' || 'fr_FR.UTF-8' }}" }
         run: prove
