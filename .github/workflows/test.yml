@@ -23,8 +23,8 @@ jobs:
       # - if: runner.os == 'Windows'
       #   run: Install-Language fr-FR
       - name: en-US
-        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States' || 'en_US.UTF-8' }}" }
+        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'en_US.UTF-8' }}" }
         run: perl -MPOSIX -E 'use Test::More tests => 1; is POSIX::setlocale(POSIX::LC_ALL), $ENV{LC_ALL}'
       - name: fr-FR
-        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States' || 'fr_FR.UTF-8' }}" }
+        env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'fr_FR.UTF-8' }}" }
         run: perl -MPOSIX -E 'use Test::More tests => 1; is POSIX::setlocale(POSIX::LC_ALL), $ENV{LC_ALL}'
