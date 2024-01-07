@@ -7,12 +7,12 @@ jobs:
     strategy:
       matrix:
         os:
-          - [🐧, ubuntu-latest]
-          - [🍎, macos-latest]
-          - [🪟, windows-latest]
-        perl: [ '5.38', '5.36', '5.34', '5.32', '5.30', '5.28', '5.26', '5.24', '5.22', '5.20', '5.18', '5.16', '5.14', '5.12' ]
+          - [🐧, ubuntu]
+          - [🍎, macos]
+          - [🪟, windows]
+        perl: [ '5.38'] #, '5.36', '5.34', '5.32', '5.30', '5.28', '5.26', '5.24', '5.22', '5.20', '5.18', '5.16', '5.14', '5.12' ]
     name: 🧅 Perl ${{ matrix.perl }} on ${{ matrix.os[0] }} ${{ matrix.os[1] }}
-    runs-on: ${{ matrix.os[1] }}
+    runs-on: ${{ matrix.os[1] }}-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Perl
@@ -21,13 +21,13 @@ jobs:
         with: { perl-version: latest }
       - if: runner.os == 'Linux'
         run: sudo apt-get install -qq aspell-en language-pack-fr
-      # - if: runner.os == 'Windows'
-      #   run: Install-Language fr-FR
+      - if: runner.os == 'Windows'
+        run: cpm install --verbose --show-build-log-on-failure --no-test --with-recommends Win32::Locale
       - name: default
-        run: prove t/deflocale.t
+        run: prove -v t/deflocale.t
       - name: en-US
         env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'en_US.UTF-8' }}" }
-        run: prove
+        run: prove -v
       - name: fr-FR
         env: { LC_ALL: "${{ runner.os == 'Windows' && 'French_France.1252' || 'fr_FR.UTF-8' }}" }
-        run: prove
+        run: prove -v
