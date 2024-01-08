@@ -21,13 +21,14 @@ jobs:
         with: { perl-version: latest }
       - if: runner.os == 'Linux'
         run: sudo apt-get install -qq aspell-en language-pack-fr
+      - run: cpm install --verbose --show-build-log-on-failure --no-test --with-recommends Locale::TextDomain
       - if: runner.os == 'Windows'
         run: cpm install --verbose --show-build-log-on-failure --no-test --with-recommends Win32::Locale
       - name: default
-        run: prove -v t/deflocale.t
+        run: prove -lv t/deflocale.t
       - name: en-US
         env: { LC_ALL: "${{ runner.os == 'Windows' && 'English_United States.1252' || 'en_US.UTF-8' }}" }
-        run: prove -v
+        run: prove -lv
       - name: fr-FR
         env: { LC_ALL: "${{ runner.os == 'Windows' && 'French_France.1252' || 'fr_FR.UTF-8' }}" }
-        run: prove -v
+        run: prove -lv

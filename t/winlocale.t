@@ -14,7 +14,10 @@ if ($^O eq 'MSWin32') {
 require Win32::Locale;
 
 my $locale = Win32::Locale::get_locale();
-is setlocale(LC_ALL, $locale), $locale,
-    "setlocale LC_ALL '$locale' should return $locale";
-is setlocale(LC_TIME), $locale,
-    "setlocale LC_TIME should return $locale";
+SKIP: {
+    skip 'No locale from Win32::Locale::get_locale()', 2 unless $locale;
+    is setlocale(LC_ALL, $locale), $locale,
+        "setlocale LC_ALL '$locale' should return $locale";
+    is setlocale(LC_TIME), $locale,
+        "setlocale LC_TIME should return $locale";
+}
